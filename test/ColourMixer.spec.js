@@ -25,9 +25,9 @@ describe("ColourMixer", () => {
 
   describe("#getColour", () => {
     let colourMixer;
-    before(() => {
-      let from = [  25,  50, 100 ],
-          to   = [  10,  30,  70 ];
+    beforeEach(() => {
+      let from = [  25,  50,  70 ],
+          to   = [  10,  30, 100 ];
       colourMixer = new ColourMixer({ from: from, to: to });
     });
 
@@ -53,12 +53,38 @@ describe("ColourMixer", () => {
       });
     });
 
+    context("when transitioning up", () => {
+      it("return a mix of the two colours", () => {
+        colourMixer.from = [   0,   0,   0 ];
+        colourMixer.to   = [ 100, 100, 100 ];
+        colourMixer.percentage = 1;
+
+        let actual = colourMixer.getColour(),
+            expected = [ 1, 1, 1 ];
+
+        expect(actual).to.deep.equal(expected);
+      });
+    });
+
+    context("when transitioning down", () => {
+      it("return a mix of the two colours", () => {
+        colourMixer.from = [ 100, 100, 100 ];
+        colourMixer.to   = [   0,   0,   0 ];
+        colourMixer.percentage = 1;
+
+        let actual = colourMixer.getColour(),
+            expected = [ 99, 99, 99 ];
+
+        expect(actual).to.deep.equal(expected);
+      });
+    });
+
     context("with a percentage of 50", () => {
       it("returns a mix of the two colours", () => {
         colourMixer.percentage = 50;
 
         let actual = colourMixer.getColour(),
-            expected = [ 7.5,  10,  15 ];
+            expected = [ 17.5,  40,  85 ];
 
         expect(actual).to.deep.equal(expected);
       });

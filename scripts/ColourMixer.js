@@ -19,11 +19,19 @@ class ColourMixer {
   getColour() {
     let factor = this.percentage / 100;
 
-    if (this.percentage == 0) { return this.from; }
-    if (this.percentage == 100) { return this.to; }
-
     return [ 0, 0, 0 ].map((_element, index) => {
-      return Math.abs(this.to[index] - this.from[index]) * factor
+      let from = this.from[index],
+          to = this.to[index];
+
+      if (from < to) {
+        let base = Math.min(this.to[index], this.from[index]);
+        return base + (Math.abs(this.to[index] - this.from[index]) * factor);
+      }
+      else {
+        let base = Math.max(this.to[index], this.from[index]);
+        return base - (Math.abs(this.to[index] - this.from[index]) * factor);
+      }
+
     });
   }
 }
