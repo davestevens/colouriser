@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "http-server example",
-    "test": "mocha --compilers js:babel-core/register"
+    "test": "mocha --compilers js:babel-core/register",
+    "watch": "gulp",
+    "build": "gulp build"
   },
   "author": "Dave Stevens <dave@dstvns.co.uk>",
   "license": "MIT",
