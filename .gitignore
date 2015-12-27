@@ -1,3 +1,7 @@
 # NPM
 npm-debug.log
 node_modules
+
+# Example directory
+example/dist/*
+!example/dist/.keep

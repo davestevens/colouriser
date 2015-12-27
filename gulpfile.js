@@ -1,6 +1,7 @@
 var gulp = require("gulp"),
     gutil = require("gulp-util"),
     browserify = require("gulp-browserify"),
+    livereload = require("gulp-livereload"),
     mocha = require("gulp-mocha"),
     Config = require("./config.json"),
     config = Config.development,
@@ -11,11 +12,12 @@ var gulp = require("gulp"),
 
 gulp.task("scripts", () => {
   return gulp
-    .src("scripts/*.js")
+    .src("scripts/Colouriser.js")
     .pipe(
       browserify(config.browserify).on("error", log_error)
     )
-    .pipe(gulp.dest(config.directory));
+    .pipe(gulp.dest(config.directory))
+    .pipe(livereload());
 });
 
 require('babel-core/register');
@@ -34,6 +36,7 @@ gulp.task("development", () => { config = Config.development; });
 gulp.task("production", () => { config = Config.production; });
 
 gulp.task("watch", () => {
+  livereload.listen();
   gulp.watch(["scripts/**/*"], ["scripts"]);
   gulp.watch(["scripts/**/*", "test/**/*"], ["test"]);
 });

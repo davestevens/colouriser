@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "http-server example",
     "test": "mocha --compilers js:babel-core/register"
   },
   "author": "Dave Stevens <dave@dstvns.co.uk>",
@@ -16,8 +17,10 @@
     "chai": "^3.4.1",
     "gulp": "^3.9.0",
     "gulp-browserify": "^0.5.1",
+    "gulp-livereload": "^3.8.1",
     "gulp-mocha": "^2.2.0",
     "gulp-util": "^3.0.7",
+    "http-server": "^0.8.5",
     "mocha": "^2.3.4"
   }
 }
