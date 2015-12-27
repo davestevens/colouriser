@@ -26,8 +26,8 @@ describe("ColourMixer", () => {
   describe("#getColour", () => {
     let colourMixer;
     before(() => {
-      let from = [   0,   0,   0 ],
-          to   = [   0,   0, 100 ];
+      let from = [  25,  50, 100 ],
+          to   = [  10,  30,  70 ];
       colourMixer = new ColourMixer({ from: from, to: to });
     });
 
@@ -58,7 +58,7 @@ describe("ColourMixer", () => {
         colourMixer.percentage = 50;
 
         let actual = colourMixer.getColour(),
-            expected = [   0,   0,  50 ];
+            expected = [ 7.5,  10,  15 ];
 
         expect(actual).to.deep.equal(expected);
       });

@@ -19,8 +19,11 @@ class ColourMixer {
   getColour() {
     let factor = this.percentage / 100;
 
+    if (this.percentage == 0) { return this.from; }
+    if (this.percentage == 100) { return this.to; }
+
     return [ 0, 0, 0 ].map((_element, index) => {
-      return (this.to[index] - this.from[index]) * factor
+      return Math.abs(this.to[index] - this.from[index]) * factor
     });
   }
 }
