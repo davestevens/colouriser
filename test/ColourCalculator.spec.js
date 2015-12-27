@@ -43,6 +43,24 @@ describe("ColourCalculator", () => {
   });
 
   describe("#at", () => {
+    context("with invalid offset", () => {
+      it("throws an Error if offset is less than zero", () => {
+        let calculator = new ColourCalculator();
+
+        expect(() => {
+          calculator.at(-250);
+        }).to.throw("Issue with requested offset: -250");
+      });
+
+      it("throws an Error if offset is greater than 100", () => {
+        let calculator = new ColourCalculator();
+
+        expect(() => {
+          calculator.at(250);
+        }).to.throw("Issue with requested offset: 250");
+      });
+    });
+
     context("with two colours at 0 & 100 and an offset of 50", () => {
       it("returns the mid-point colour of the two", () => {
         let calculator = new ColourCalculator();

@@ -14,6 +14,11 @@ class ColourCalculator {
   }
 
   at(offset) {
+    if (offset > 100 || offset < 0) {
+      throw new Error(`Issue with requested offset: ${offset}`);
+    }
+    if (offset == 100) { offset = 0; } // Wrap
+
     let index = 0;
     for (var i = 0; i < this.colours.length; ++i) {
       if (this.colours[i].offset < offset) { continue; }
