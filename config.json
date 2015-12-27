@@ -1,0 +1,18 @@
+{
+  "development": {
+    "browserify": {
+      "debug": true,
+      "standalone": "Colouriser",
+      "transform": ["babelify"]
+    },
+    "directory": "example/dist"
+  },
+  "production": {
+    "browserify": {
+      "debug": false,
+      "standalone": "Colouriser",
+      "transform": ["babelify"]
+    },
+    "directory": "dist"
+  }
+}
