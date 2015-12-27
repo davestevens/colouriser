@@ -8,7 +8,7 @@ class ColourCalculator {
   add({ colour, offset }) {
     this.colours.push({
       colour: colour,
-      offset: offset
+      offset: Math.max(Math.min(offset, 100), 0)
     });
     this._sortColours();
   }
@@ -23,18 +23,31 @@ class ColourCalculator {
       }
     }
 
-    let from = this.colours[((index == 0) ? 0 : index - 1)],
+    let fromIndex = (index == 0) ? (this.colours.length - 1) : index - 1,
+        from = this.colours[fromIndex],
         to = this.colours[index],
-        offsetMin = Math.min(to.offset, from.offset),
-        offsetFrom = from.offset - offsetMin,
-        offsetTo = to.offset - offsetMin,
-        offsetDiff = Math.abs(offsetFrom - offsetTo),
-        percentage = ((offset - offsetMin) / offsetDiff) * 100;
+        diff = 0,
+        percentage = 0;
+
+    if (from.offset < to.offset) {
+      diff = to.offset - from.offset,
+      percentage = ((offset - from.offset) / diff) * 100;
+    }
+    else {
+      diff = (100 - from.offset) + to.offset;
+
+      if (offset < to.offset) {
+        percentage = (((100 - from.offset) + offset) / diff) * 100;
+      }
+      else {
+        percentage = ((offset - from.offset) / diff) * 100;
+      }
+    }
 
     let colourMixer = new ColourMixer({
       from: from.colour,
       to: to.colour,
-      percentage: percentage || 0
+      percentage: percentage
     });
 
     return colourMixer.getColour();
