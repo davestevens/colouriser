@@ -113,22 +113,22 @@ var ColourMixer = (function () {
   _createClass(ColourMixer, [{
     key: "getColour",
     value: function getColour() {
-      var _this = this;
+      return [this._getOffset(+this.from[0], +this.to[0], 360), this._getOffset(+this.from[1], +this.to[1]), this._getOffset(+this.from[2], +this.to[2])];
+    }
+  }, {
+    key: "_getOffset",
+    value: function _getOffset(from, to) {
+      var limit = arguments.length <= 2 || arguments[2] === undefined ? 100 : arguments[2];
 
-      var factor = this.percentage / 100;
-
-      return [0, 0, 0].map(function (_element, index) {
-        var from = _this.from[index],
-            to = _this.to[index];
-
-        if (from < to) {
-          var base = Math.min(_this.to[index], _this.from[index]);
-          return base + Math.abs(_this.to[index] - _this.from[index]) * factor;
-        } else {
-          var base = Math.max(_this.to[index], _this.from[index]);
-          return base - Math.abs(_this.to[index] - _this.from[index]) * factor;
-        }
-      });
+      if (from > to) {
+        to += limit;
+      }
+      return (to - from) * this._factor() + from;
+    }
+  }, {
+    key: "_factor",
+    value: function _factor() {
+      return this.percentage / 100;
     }
   }, {
     key: "percentage",
@@ -192,22 +192,34 @@ var Colouriser = (function () {
     });
 
     this.onUpdate = options.onUpdate || function (_colour) {/* Noop */};
+
+    this.fps = options.fps || 1;
   }
 
   _createClass(Colouriser, [{
     key: "start",
     value: function start() {
+      this.then = Date.now();
+      this.interval = 1000 / this.fps;
       this._calculate();
     }
   }, {
     key: "_calculate",
     value: function _calculate() {
-      var milliseconds = this._currentTime(),
-          percentageThroughDay = this._timeAsPercentage(milliseconds),
-          colour = this.calculator.at(percentageThroughDay);
-
-      this.onUpdate(colour);
       window.requestAnimationFrame(this._calculate.bind(this));
+
+      var now = Date.now(),
+          delta = now - this.then;
+
+      if (delta > this.interval) {
+        this.then = now - delta % this.interval;
+
+        var milliseconds = this._currentTime(),
+            percentageThroughDay = this._timeAsPercentage(milliseconds),
+            colour = this.calculator.at(percentageThroughDay);
+
+        this.onUpdate(colour);
+      }
     }
   }, {
     key: "_currentTime",
