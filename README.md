@@ -11,7 +11,7 @@ Using the HSL colour space allows just two colours/times to be selected and then
 
 - [ ] Create a Colour Class for input and output in different formats
 - [ ] Create a Time Class for better time input
-- [ ] Reduce the FPS (currently just calling `requestAnimationFrame` constantly.
+- [x] Reduce the FPS (currently just calling `requestAnimationFrame` constantly.
 
 ## Example
 

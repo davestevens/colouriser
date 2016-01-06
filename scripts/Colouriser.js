@@ -14,19 +14,31 @@ class Colouriser {
     });
 
     this.onUpdate = options.onUpdate || ((_colour) => { /* Noop */ });
+
+    this.fps = options.fps || 1;
   }
 
   start() {
+    this.then = Date.now();
+    this.interval = 1000 / this.fps;
     this._calculate();
   }
 
   _calculate() {
-    let milliseconds = this._currentTime(),
-        percentageThroughDay = this._timeAsPercentage(milliseconds),
-        colour = this.calculator.at(percentageThroughDay);
-
-    this.onUpdate(colour);
     window.requestAnimationFrame(this._calculate.bind(this));
+
+    let now = Date.now(),
+        delta = now - this.then;
+
+    if (delta > this.interval) {
+      this.then = now - (delta % this.interval);
+
+      let milliseconds = this._currentTime(),
+          percentageThroughDay = this._timeAsPercentage(milliseconds),
+          colour = this.calculator.at(percentageThroughDay);
+
+      this.onUpdate(colour);
+    }
   }
 
   _currentTime() {
