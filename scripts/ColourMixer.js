@@ -17,22 +17,22 @@ class ColourMixer {
   get to() { return this._to; }
 
   getColour() {
-    let factor = this.percentage / 100;
+    return [
+      this._getOffset(+this.from[0], +this.to[0], 360),
+      this._getOffset(+this.from[1], +this.to[1]),
+      this._getOffset(+this.from[2], +this.to[2])
+    ]
+  }
 
-    return [ 0, 0, 0 ].map((_element, index) => {
-      let from = this.from[index],
-          to = this.to[index];
+  _getOffset(from, to, limit = 100) {
+    if (from > to) {
+      to += limit;
+    }
+    return ((to - from) * this._factor()) + from
+  }
 
-      if (from < to) {
-        let base = Math.min(this.to[index], this.from[index]);
-        return base + (Math.abs(this.to[index] - this.from[index]) * factor);
-      }
-      else {
-        let base = Math.max(this.to[index], this.from[index]);
-        return base - (Math.abs(this.to[index] - this.from[index]) * factor);
-      }
-
-    });
+  _factor() {
+    return this.percentage / 100;
   }
 }
 
