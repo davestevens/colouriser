@@ -204,9 +204,17 @@ var Colouriser = (function () {
       this._calculate();
     }
   }, {
+    key: "destroy",
+    value: function destroy() {
+      if (this.requestId) {
+        window.cancelAnimationFrame(this.requestId);
+        this.requestId = null;
+      }
+    }
+  }, {
     key: "_calculate",
     value: function _calculate() {
-      window.requestAnimationFrame(this._calculate.bind(this));
+      this.requestId = window.requestAnimationFrame(this._calculate.bind(this));
 
       var now = Date.now(),
           delta = now - this.then;
