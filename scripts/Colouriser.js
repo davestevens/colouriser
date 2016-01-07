@@ -24,8 +24,15 @@ class Colouriser {
     this._calculate();
   }
 
+  destroy() {
+    if (this.requestId) {
+      window.cancelAnimationFrame(this.requestId);
+      this.requestId = null;
+    }
+  }
+
   _calculate() {
-    window.requestAnimationFrame(this._calculate.bind(this));
+    this.requestId = window.requestAnimationFrame(this._calculate.bind(this));
 
     let now = Date.now(),
         delta = now - this.then;
